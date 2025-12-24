@@ -7,7 +7,7 @@ import time
 import pygame
 
 from luma import Luma, LumaConfig
-from holo_orb import HoloOrb, HoloOrbStyle
+from smooth_orb import SmoothOrb, SmoothOrbStyle
 
 
 ENABLE_TCP_INPUT = True
@@ -38,11 +38,24 @@ def tcp_listener(host: str, port: int) -> None:
 
 
 def main() -> None:
-    cfg = LumaConfig(width=800, height=480, base_radius=60)
+    cfg = LumaConfig(
+        width=800,
+        height=480,
+        radius=110,   # fixed orb size
+    )
+
     luma = Luma(cfg)
 
-    # Holographic renderer (tune down for Raspberry Pi if needed)
-    holo = HoloOrb(HoloOrbStyle(points=220, links=320, sparks=90, rings=6, shell_layers=4, jitter=0.012))
+    orb = SmoothOrb(
+        SmoothOrbStyle(
+            internal_res=220,
+            blur_passes=2,
+            vignette_strength=0.50,
+            rim_strength=0.35,
+            highlight_strength=0.45,
+        )
+    )
+
     start_time = time.time()
 
     pygame.init()
@@ -77,34 +90,37 @@ def main() -> None:
             if ev_type == "BOT_INPUT":
                 luma.receive_input(ev_text)
 
-        luma.update(dt)
+        #luma.update(dt)
 
-        # Background
-        screen.fill((10, 10, 14))
+        # Background (slightly lifted helps the glass effect)
+        screen.fill((12, 12, 16))
 
-        # Color state
-        if luma.is_attentive(now):
-            base_rgb = (40, 220, 120)  # green
+        attentive = luma.is_attentive(now)
+        if attentive:
+            base_rgb = (40, 220, 120)   # green state
             state = "GREEN (attentive)"
         else:
-            base_rgb = (60, 140, 255)  # blue
+            base_rgb = (60, 140, 255)   # blue state
             state = "BLUE (idle)"
+            
+        fixed_radius = cfg.radius
+        center = (cfg.width // 2, cfg.height // 2)
 
-        # Organic breathing size
-        dyn_radius = luma.radius_at(now)
 
-        # Holographic orb (stationary center)
-        holo.draw(
+        orb.draw(
             screen,
-            center_xy=(int(luma.x), int(luma.y)),
-            radius=dyn_radius,
-            t=t,
+            center_xy=center,        # stationary
+            radius=fixed_radius,     # fixed size (no breathing)
+            t=t,                     # drives internal color motion
             base_rgb=base_rgb,
+            attentive=attentive
         )
 
+
+
         # Minimal HUD
-        screen.blit(font.render(f"Luma: {state}", True, (230, 230, 230)), (12, 12))
-        screen.blit(font.render("SPACE = simulate input | ESC = quit", True, (160, 160, 160)), (12, 40))
+        screen.blit(font.render(f"Luma: {state}", True, (235, 235, 235)), (12, 12))
+        screen.blit(font.render("SPACE = simulate input | ESC = quit", True, (165, 165, 165)), (12, 40))
 
         pygame.display.flip()
 
