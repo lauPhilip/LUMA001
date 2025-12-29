@@ -7,8 +7,10 @@ import time
 import pygame
 
 from luma import Luma, LumaConfig
-from smooth_orb import SmoothOrb, SmoothOrbStyle
+from energy_orb import EnergyOrb, EnergyOrbStyle
 
+icon = pygame.image.load("luma.jpg")
+pygame.display.set_icon(icon)
 
 ENABLE_TCP_INPUT = True
 TCP_HOST = "0.0.0.0"
@@ -46,15 +48,7 @@ def main() -> None:
 
     luma = Luma(cfg)
 
-    orb = SmoothOrb(
-        SmoothOrbStyle(
-            internal_res=220,
-            blur_passes=2,
-            vignette_strength=0.50,
-            rim_strength=0.35,
-            highlight_strength=0.45,
-        )
-    )
+    orb = EnergyOrb(EnergyOrbStyle())
 
     start_time = time.time()
 
@@ -97,23 +91,20 @@ def main() -> None:
 
         attentive = luma.is_attentive(now)
         if attentive:
-            base_rgb = (40, 220, 120)   # green state
+            #base_rgb = (40, 220, 120)   # green state
             state = "GREEN (attentive)"
         else:
-            base_rgb = (60, 140, 255)   # blue state
+            #base_rgb = (60, 140, 255)   # blue state
             state = "BLUE (idle)"
             
         fixed_radius = cfg.radius
         center = (cfg.width // 2, cfg.height // 2)
 
-
         orb.draw(
             screen,
-            center_xy=center,        # stationary
-            radius=fixed_radius,     # fixed size (no breathing)
-            t=t,                     # drives internal color motion
-            base_rgb=base_rgb,
-            attentive=attentive
+            center=center,
+            radius=fixed_radius,
+            t=t,
         )
 
 
