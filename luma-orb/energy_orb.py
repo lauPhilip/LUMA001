@@ -1,86 +1,39 @@
-# energy_orb.py
+# energy_orb.py - V2 Visual Cortex
+import pygame
 import math
-import random
-from dataclasses import dataclass
-
-
-@dataclass
-class EnergyOrbStyle:
-    res: int = 240
-    filaments: int = 28
-    sparks: int = 16
-    rim_strength: float = 1.0
-
 
 class EnergyOrb:
-    def __init__(self, style: EnergyOrbStyle | None = None, seed: int = 7):
-        self.style = style or EnergyOrbStyle()
-        rnd = random.Random(seed)
+    def __init__(self):
+        pass
 
-        self._filaments = []
-        for _ in range(self.style.filaments):
-            self._filaments.append({
-                "phase": rnd.random() * 2 * math.pi,
-                "speed": 0.6 + rnd.random() * 1.2,
-                "radius": 0.25 + rnd.random() * 0.55,
-                "amp": 0.12 + rnd.random() * 0.22,
-            })
+    def draw(self, screen, center, radius, t, base_color, is_thinking, mode, cfg, ops, chat_active, resp, voice):
+        color = cfg.mode_palette.get(mode, base_color)
+        
+        # --- TOP-RIGHT METADATA ---
+        font = pygame.font.SysFont("Consolas", 14)
+        metadata = [
+            f"AGNT: L.U.M.A. V2", # Lau’s Universal Management Agent [cite: 2026-02-11]
+            f"MODE: {mode}",
+            f"STAT: { 'THINKING' if is_thinking else 'LISTENING' if not voice.is_speaking else 'SPEAKING' }",
+            f"HUB: HERNING_STATION"
+        ]
+        for i, text in enumerate(metadata):
+            txt_surf = font.render(text, True, color)
+            screen.blit(txt_surf, (cfg.width - 180, 20 + (i * 18)))
 
-        self._sparks = [rnd.random() * 2 * math.pi for _ in range(self.style.sparks)]
+        # --- CENTRAL ENERGY ORB ---
+        # Main Outer Ring
+        pygame.draw.circle(screen, color, center, radius, 2)
+        
+        # Rotating Technical Arcs (The "Luma" Ring)
+        rect = pygame.Rect(center[0]-radius-10, center[1]-radius-10, (radius+10)*2, (radius+10)*2)
+        pygame.draw.arc(screen, color, rect, t, t + 1.5, 3) # Bottom Arc
+        pygame.draw.arc(screen, color, rect, t + 3.14, t + 4.64, 3) # Top Arc
 
-    def draw(self, screen, center, radius, t):
-        import pygame
-
-        n = self.style.res
-        surf = pygame.Surface((n, n), pygame.SRCALPHA)
-        cx = cy = n // 2
-        R = n // 2
-
-        # --- Base plasma (dark blue)
-        for r in range(R, 0, -2):
-            a = int(12 * (r / R))
-            pygame.draw.circle(surf, (20, 60, 120, a), (cx, cy), r)
-
-        # --- Electric filaments
-        for f in self._filaments:
-            pts = []
-            ang0 = f["phase"] + t * f["speed"]
-            for i in range(18):
-                th = ang0 + i * 0.35
-                rr = f["radius"] * R * (0.85 + 0.25 * math.sin(t * 1.8 + i))
-                wob = f["amp"] * R * math.sin(th * 3.2 + t * 2.2)
-                x = cx + math.cos(th) * rr + math.cos(th * 1.5) * wob
-                y = cy + math.sin(th) * rr + math.sin(th * 1.3) * wob
-                pts.append((x, y))
-
-            col = (80, 180, 255, 80)
-            if len(pts) > 1:
-                pygame.draw.lines(surf, col, False, pts, 1)
-
-        # --- Core sparks
-        for ph in self._sparks:
-            ang = ph + t * 2.4
-            rr = R * 0.18
-            x = cx + math.cos(ang) * rr
-            y = cy + math.sin(ang) * rr
-            pygame.draw.circle(surf, (160, 220, 255, 120), (int(x), int(y)), 2)
-
-        # --- Hot rim (key visual)
-        for i in range(3):
-            a = int((90 - i * 25) * self.style.rim_strength)
-            pygame.draw.circle(
-                surf,
-                (120, 220, 255, a),
-                (cx, cy),
-                R - i,
-                2
-            )
-
-        # --- Clip to circle (hard)
-        mask = pygame.Surface((n, n), pygame.SRCALPHA)
-        pygame.draw.circle(mask, (255, 255, 255, 255), (cx, cy), R)
-        surf.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-        # --- Scale + draw
-        orb = pygame.transform.smoothscale(surf, (radius * 2, radius * 2))
-        screen.blit(orb, (center[0] - radius, center[1] - radius))
+        # Inner Reasoning Pulse
+        pulse_val = radius - 15 + (math.sin(t * 5) * 5)
+        if is_thinking:
+            # Shift to Magenta/Cobalt when reasoning
+            pygame.draw.circle(screen, (180, 0, 255), center, int(pulse_val), 0)
+        else:
+            pygame.draw.circle(screen, color, center, int(pulse_val), 1)

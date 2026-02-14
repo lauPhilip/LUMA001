@@ -1,0 +1,25 @@
+[
+  {
+    "project_id": "LUMA-001-ALPHA",
+    "project_name": "Lau's Universal Management Agent",
+    "start_date": "2026-02-02",
+    "last_synced": "2026-02-11T11:25:00",
+    "technical_stack": {
+      "engine": "Pygame",
+      "brain": "Phi-3 (Ollama)",
+      "vision": "HUD v1.0"
+    },
+    "milestones": [
+      {
+        "m_id": "L001-M01",
+        "title": "Core UI & Branding",
+        "status": "Completed"
+      },
+      {
+        "m_id": "L001-M02",
+        "title": "Knowledge Bank Architecture",
+        "status": "In Progress"
+      }
+    ]
+  }
+]

@@ -1,0 +1,6 @@
+pygame
+requests
+pyttsx3
+SpeechRecognition
+pyaudio
+faster-whisper==0.10.0
