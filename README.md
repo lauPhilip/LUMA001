@@ -1,10 +1,9 @@
 # L.U.M.A. V2 // Lau’s Universal Management Agent
 ### *The Central Intelligence Hub for Herning Engineering Operations*
 
-<div align="center"><a href="https://www.behindthevoiceactors.com/movies/Avengers-Age-of-Ultron/FRIDAY/">
-  <img width="258" height="297" alt="friday" src="https://github.com/user-attachments/assets/bba6d076-a7be-49ec-9036-e1970d5b3875" />
+<a href="https://www.behindthevoiceactors.com/movies/Avengers-Age-of-Ultron/FRIDAY/">
+  <img align="center" width="258" height="297" alt="friday" src="https://github.com/user-attachments/assets/bba6d076-a7be-49ec-9036-e1970d5b3875" />
 </a>  
-</div>
 
 L.U.M.A. is a localized, high-performance AI OS designed for engineering project management and daily task orchestration. Taking inspiration from the F.R.I.D.A.Y. standard, she features a grounded Irish-lilted personality, technical fluidity, and a real-time HUD visual cortex.
 
