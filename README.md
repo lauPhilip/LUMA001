@@ -3,7 +3,7 @@
     <img width="258" height="297" alt="friday" src="https://github.com/user-attachments/assets/bba6d076-a7be-49ec-9036-e1970d5b3875" />
   </a>
   <h1>L.U.M.A. V2 // Lau’s Universal Management Agent</h1>
-  <p><i>The Central Intelligence Hub for Herning Engineering Operations</i></p>
+  <p><i>The Central Intelligence Hub for Personal Engineering Operations</i></p>
 </div>
 
 ---
@@ -21,7 +21,7 @@ L.U.M.A. operates on a modular "Nerve-Link" architecture, anchoring its logic in
 1. **`main.py`**: The Mission Control. Orchestrates the sensory loop and event handling.
 2. **`luma.py`**: The Router. Manages cognitive state, mode switching (e.g., DEEPWORK), and LLM uplinks.
 3. **`voice_engine.py`**: The Sensory Array. Handles asynchronous speech queuing and neural XTTS-v2 synthesis.
-4. **`energy_orb.py`**: The Visual Cortex. Renders the real-time HUD, CPU pulse, and Herning station telemetry.
+4. **`energy_orb.py`**: The Visual Cortex. Renders the real-time HUD, CPU pulse, and Location station telemetry.
 5. **`luma_ops.py`**: The Archive Manager. Handles YAML-native data migration and environment grounding.
 6. **`config.py`**: The Central Core. Defines the Nordic Tech Palette and operational constraints.
 
@@ -31,7 +31,7 @@ L.U.M.A. operates on a modular "Nerve-Link" architecture, anchoring its logic in
 
 L.U.M.A. has transitioned from rigid JSON to a fluid YAML/Markdown hybrid knowledge base located in `luma-orb/knowledge/`:
 
-* **`projects.yaml`**: Active engineering logs for the Herning station.
+* **`projects.yaml`**: Active engineering logs for the station.
 * **`session.yaml`**: Contextual memory of recent interactions.
 * **`persona.md`**: Behavioral constraints (The Irish-lilted F.R.I.D.A.Y. vibe).
 * **`user.md`**: Direct grounding for Master Lau’s role and preferences.
