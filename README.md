@@ -7,7 +7,7 @@ L.U.M.A. is a localized, high-performance AI OS designed for engineering project
 
 ## 🛠️ System Architecture
 
-L.U.M.A. operates on a modular "Nerve-Link" architecture, anchoring its logic in a dual-directory structure to maintain environmental isolation [cite: 2026-02-11]:
+L.U.M.A. operates on a modular "Nerve-Link" architecture, anchoring its logic in a dual-directory structure to maintain environmental isolation:
 
 * **The Nerve Center (`LUMA001/`)**: The root directory housing the primary `.venv` and shared binary dependencies (FFmpeg DLLs).
 * **The Cognitive Core (`luma-orb/`)**: The engine's heart, containing the LLM interface, voice engine, and localized knowledge archives.
