@@ -1,6 +1,15 @@
-pygame
-requests
-pyttsx3
-SpeechRecognition
-pyaudio
-faster-whisper==0.10.0
+# --- Core Engine & UI ---
+pygame          # Visual Cortex and HUD rendering
+psutil          # Real-time CPU/System telemetry for the HUD 
+pyyaml          # Native archive management for knowledge/projects 
+requests        # Ollama API uplinks and Open-Meteo weather data 
+
+# --- Neural Audio Processing ---
+faster-whisper==0.10.0  # Local STT 
+TTS                     # Coqui XTTS-v2 for the Irish-lilted vocal DNA 
+pyaudio                 # Interface for microphone input
+sounddevice             # Audio stream handling for the asynchronous queue 
+numpy                   # Matrix calculations for neural audio
+
+# --- Environment Management ---
+python-dotenv   # Managing local station paths and keys
